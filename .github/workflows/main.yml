@@ -14,5 +14,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Generate SHA
+        run: |
+          SHA=$(echo $GITHUB_SHA | cut -c7)
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
       - name: Build docker image
-        run: docker build -t jinbok/nwl.journey.api:latest .
+        run: docker build -t jinbok/nwl.journey.api:${{ steps.generate_sha.outputs.sha }} .
